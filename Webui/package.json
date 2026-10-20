@@ -1,0 +1,20 @@
+{
+  "name": "laya-credit-webui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.4.0",
+    "astro": "^5.13.0",
+    "better-sqlite3": "^12.2.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "typescript": "^5.9.0"
+  }
+}
+

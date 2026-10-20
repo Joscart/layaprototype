@@ -1,0 +1,23 @@
+syntax = "proto3";
+package credit;
+
+service DecisionService {
+  rpc Decide(DecideRequest) returns (DecideResponse);
+}
+
+message DecideRequest {
+  string company = 1;
+  string state = 2;
+  string rules = 3;
+  string history = 4;
+  string instruction_decision = 5;
+  string instruction_rank = 6;
+  string output = 7;
+  repeated string options = 8;
+  repeated string rank_limits = 9;
+}
+
+message DecideResponse {
+  string model_output_json = 1;
+}
+

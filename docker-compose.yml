@@ -1,0 +1,40 @@
+services:
+  webui:
+    build: ./Webui
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: 4321
+      DATABASE_PATH: /data/webui.db
+      MODEL_URL: http://model:8000
+    ports:
+      - "4321:4321"
+    volumes:
+      - webui_data:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4321/api/internal/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+
+  model:
+    build: ./Model
+    env_file: .env
+    environment:
+      WEBUI_URL: http://webui:4321
+      HF_HOME: /models/cache
+      LAYA_MAX_LEN: 8192
+      LAYA_HEAD_MAX_LEN: 512
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+    volumes:
+      - model_cache:/models
+    depends_on:
+      webui:
+        condition: service_healthy
+
+volumes:
+  webui_data:
+  model_cache:
+
